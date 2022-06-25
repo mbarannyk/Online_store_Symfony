@@ -1,0 +1,60 @@
+{% extends 'actions.html.twig' %}
+
+
+    {% block title %}
+        <title>Display categories</title>
+    {% endblock %}
+
+    {% block table %}
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="text-black">Наші товари</h1>
+        <p class="lead text-black">В нашому магазині ви можете замовити товари з представлених категорій <br> або</p>
+        <p>
+          <a href="/main/products" class="btn btn-outline-success my-2">переглянути всі продукти</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="album bg-light">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2">
+
+         {% for category in categories %}
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Fruits</title><rect width="100%" height="100%" fill="#FFA500"/><text x="40%" y="50%" text font-size="40" fill="black" dy=".3em">{{ category.name }}</text></svg>
+
+            <div class="card-body" align="center">
+              <p class="card-text">В цій категорії ви можете обрати для замовлення найкращі {{ category.name }} до вашого столу</p>
+                <div class="btn-group">
+                  <a type="button" class="btn btn-outline-success" href="/main/fruits">Переглянути</a>
+                </div>
+            </div>
+          </div>
+        </div>
+
+         {% endfor %}
+
+        {# <div class="col">
+          <div class="card shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Vegetables</title><rect width="100%" height="100%" fill="#ADFF2F"/><text x="40%" y="50%" text font-size="40" fill="black" dy=".3em">Овочі</text></svg>
+
+            <div class="card-body" align="center">
+              <p class="card-text">В цій категорії ви можете обрати для замовлення найкращі овочі до вашого столу</p>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-block btn-outline-success">Переглянути</button>
+                </div>
+            </div>
+          </div>
+        </div> #}
+      </div>
+    </div>
+  </div>
+    {% endblock %}
+
+
