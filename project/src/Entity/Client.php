@@ -16,23 +16,26 @@ class Client
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $Name;
+    private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $Email;
-
-    #[ORM\Column(type: 'string', length: 8)]
-    private $Password;
+    private $email;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $Adress;
+    private $phone;
 
-    #[ORM\OneToMany(mappedBy: 'Client', targetEntity: Order::class, orphanRemoval: true)]
-    private $Orders;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $adress;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $password;
+
+    #[ORM\OneToMany(mappedBy: 'client_id', targetEntity: ClientOrder::class, orphanRemoval: true)]
+    private $clientOrders;
 
     public function __construct()
     {
-        $this->Orders = new ArrayCollection();
+        $this->clientOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -42,76 +45,88 @@ class Client
 
     public function getName(): ?string
     {
-        return $this->Name;
+        return $this->name;
     }
 
-    public function setName(string $Name): self
+    public function setName(string $name): self
     {
-        $this->Name = $Name;
+        $this->name = $name;
 
         return $this;
     }
 
     public function getEmail(): ?string
     {
-        return $this->Email;
+        return $this->email;
     }
 
-    public function setEmail(string $Email): self
+    public function setEmail(string $email): self
     {
-        $this->Email = $Email;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPhone(): ?string
     {
-        return $this->Password;
+        return $this->phone;
     }
 
-    public function setPassword(string $Password): self
+    public function setPhone(string $phone): self
     {
-        $this->Password = $Password;
+        $this->phone = $phone;
 
         return $this;
     }
 
     public function getAdress(): ?string
     {
-        return $this->Adress;
+        return $this->adress;
     }
 
-    public function setAdress(string $Adress): self
+    public function setAdress(string $adress): self
     {
-        $this->Adress = $Adress;
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Order>
+     * @return Collection<int, ClientOrder>
      */
-    public function getOrders(): Collection
+    public function getClientOrders(): Collection
     {
-        return $this->Orders;
+        return $this->clientOrders;
     }
 
-    public function addOrder(Order $order): self
+    public function addClientOrder(ClientOrder $clientOrder): self
     {
-        if (!$this->Orders->contains($order)) {
-            $this->Orders[] = $order;
-            $order->setClient($this);
+        if (!$this->clientOrders->contains($clientOrder)) {
+            $this->clientOrders[] = $clientOrder;
+            $clientOrder->setClientId($this);
         }
 
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function removeClientOrder(ClientOrder $clientOrder): self
     {
-        if ($this->Orders->removeElement($order)) {
+        if ($this->clientOrders->removeElement($clientOrder)) {
             // set the owning side to null (unless already changed)
-            if ($order->getClient() === $this) {
-                $order->setClient(null);
+            if ($clientOrder->getClientId() === $this) {
+                $clientOrder->setClientId(null);
             }
         }
 

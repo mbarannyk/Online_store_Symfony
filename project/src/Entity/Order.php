@@ -16,19 +16,22 @@ class Order
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToMany(targetEntity: Product::class)]
-    private $Product;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $adress;
 
-    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'Orders')]
+    #[ORM\ManyToOne(targetEntity: status::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $Client;
+    private $status_id;
 
-    #[ORM\Column(type: 'integer')]
-    private $Status;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: '0')]
+    private $total_price;
+
+    #[ORM\OneToMany(mappedBy: 'order_id', targetEntity: OrderProduct::class)]
+    private $orderProducts;
 
     public function __construct()
     {
-        $this->Product = new ArrayCollection();
+        $this->orderProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -36,50 +39,68 @@ class Order
         return $this->id;
     }
 
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProduct(): Collection
+    public function getAdress(): ?string
     {
-        return $this->Product;
+        return $this->adress;
     }
 
-    public function addProduct(Product $product): self
+    public function setAdress(string $adress): self
     {
-        if (!$this->Product->contains($product)) {
-            $this->Product[] = $product;
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    public function getStatusId(): ?status
+    {
+        return $this->status_id;
+    }
+
+    public function setStatusId(?status $status_id): self
+    {
+        $this->status_id = $status_id;
+
+        return $this;
+    }
+
+    public function getTotalPrice(): ?string
+    {
+        return $this->total_price;
+    }
+
+    public function setTotalPrice(string $total_price): self
+    {
+        $this->total_price = $total_price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderProduct>
+     */
+    public function getOrderProducts(): Collection
+    {
+        return $this->orderProducts;
+    }
+
+    public function addOrderProduct(OrderProduct $orderProduct): self
+    {
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts[] = $orderProduct;
+            $orderProduct->setOrderId($this);
         }
 
         return $this;
     }
 
-    public function removeProduct(Product $product): self
+    public function removeOrderProduct(OrderProduct $orderProduct): self
     {
-        $this->Product->removeElement($product);
-
-        return $this;
-    }
-
-    public function getClient(): ?Client
-    {
-        return $this->Client;
-    }
-
-    public function setClient(?Client $Client): self
-    {
-        $this->Client = $Client;
-
-        return $this;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->Status;
-    }
-
-    public function setStatus(int $Status): self
-    {
-        $this->Status = $Status;
+        if ($this->orderProducts->removeElement($orderProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($orderProduct->getOrderId() === $this) {
+                $orderProduct->setOrderId(null);
+            }
+        }
 
         return $this;
     }

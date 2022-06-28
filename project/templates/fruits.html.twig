@@ -1,4 +1,4 @@
-{% extends 'actions.html.twig' %}
+{% extends 'category.html.twig' %}
 
 {% block title %}
     <title>Display fruits</title>
@@ -8,27 +8,30 @@
   <br>
     <h3 align="center" style="color:Green"> Фрукти </h3>
   <br>
+
     <table class="table table-striped">
       <thead class="table-dark">
       <tr align="center">
-        <th scope="col" width="450">Категорія</th>
         <th scope="col" width="450">Назва</th>
         <th scope="col" width="450">Опис</th>
         <th scope="col" width="450">Зображення</th>
         <th scope="col" width="450">Ціна</th>
         <th scope="col" width="150"></th>
+        <th scope="col" width="150"></th>
       </thead>
-      {% for fruit in fruits %}
+     {% for product in products %}
+            {% if product.category.name == 'фрукти' %}
       <tbody>
-      <tr>
-        <th scope="row">{{ product.category }}</th>
+      <tr align="center">
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td>{{ product.image }}</td>
         <td>{{ product.price }}</td>
-         <td> <a button class="btn btn-outline-success" type="button" href="#">Покласти в кошик</a> </td> 
+        <td> <a button class="btn btn-outline-success" type="button" href="#">Переглянути продукт</a> </td> 
+        <td> <a button class="btn btn-outline-success" type="button" href="#">Покласти в кошик</a> </td> 
       </tr>
       </tbody>
+         {% endif %}
       {% endfor %}
     </table>
 {% endblock %}

@@ -22,4 +22,9 @@ class MainController extends AbstractController
         ]);
     }
 
+    #[Route('/main/contacts', name: 'contacts')]
+    public function DisplayContacts(): Response
+    {
+        return $this->render('contacts.html.twig');
+    }
 }

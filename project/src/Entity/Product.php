@@ -14,7 +14,7 @@ class Product
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $Name;
+    public $Name;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $Description;
@@ -23,11 +23,11 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private $Category;
 
-    #[ORM\Column(type: 'blob', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private $Image;
 
-    #[ORM\Column(type: 'integer')]
-    private $Price;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: '0')]
+    private $price;
 
     public function getId(): ?int
     {
@@ -70,27 +70,28 @@ class Product
         return $this;
     }
 
-    public function getImage()
+    public function getImage(): ?string
     {
         return $this->Image;
     }
 
-    public function setImage($Image): self
+    public function setImage(string $Image): self
     {
         $this->Image = $Image;
 
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): ?string
     {
-        return $this->Price;
+        return $this->price;
     }
 
-    public function setPrice(int $Price): self
+    public function setPrice(string $price): self
     {
-        $this->Price = $Price;
+        $this->price = $price;
 
         return $this;
     }
+
 }

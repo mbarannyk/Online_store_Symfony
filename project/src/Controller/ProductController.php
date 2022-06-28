@@ -25,14 +25,38 @@ class ProductController extends AbstractController
     #[Route('/main/products', name: 'products', methods: ['GET'])]
     public function ProductsPage(): Response
     {
+        
         $products = $this->ProductRepository->findAll();
         return $this->render('products_list.html.twig', ['products' => $products]);
     }
 
-    #[Route('/main/fruits', name: 'fruits', methods: ['GET'])]
-    public function findByExampleField(Request $request, ProductRepository $ProductRepository): Response
+    #[Route('/main/фрукти', name: 'fruits')]
+    public function shopFruits(ProductRepository $ProductRepository): Response
     {
-        $fruits = $this->ProductRepository->findByExampleField($request->query->get('фрукти'));
-        return $this->render('fruits.html.twig', ['fruits' => $fruits]);
+        $products = $ProductRepository->findAll();
+        return $this->render('fruits.html.twig', ['products' => $products]);
     }
+    #[Route('/main/овочі', name: 'vegetables')]
+    public function shopVegetables(ProductRepository $ProductRepository): Response
+    {
+        $products = $ProductRepository->findAll();
+        return $this->render('vegetables.html.twig', ['products' => $products]);
+    }
+
+    // #[Route('/main/фрукти', name: 'fruits', methods: ['GET'])]
+    // #[Route('/main/овочі', name: 'vegetables', methods: ['GET'])]
+    // public function findByExampleField(Request $request, ProductRepository $ProductRepository): Response
+    // {
+    //     $fruits = $this->ProductRepository->findByExampleField($request->query->get(category.name));
+    //     return $this->render('fruits.html.twig', ['fruits' => $fruits]);
+    //     $vegetables = $this->ProductRepository->findByExampleField($request->query->get('овочі'));
+    //     return $this->render('vegetables.html.twig', ['vegetables' => $vegetables]);
+    // }
+
+    // #[Route('/main/овочі', name: 'vegetables', methods: ['GET'])]
+    // public function findByExampleField(Request $request, ProductRepository $ProductRepository): Response
+    // {
+    //     $vegetables = $this->ProductRepository->findByExampleField($request->query->get('овочі'));
+    //     return $this->render('vegetables.html.twig', ['vegetables' => $vegetables]);
+    // }
 }

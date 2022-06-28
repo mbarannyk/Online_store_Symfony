@@ -17,16 +17,18 @@
         <th scope="col" width="450">Зображення</th>
         <th scope="col" width="450">Ціна</th>
         <th scope="col" width="150"></th>
+        <th scope="col" width="150"></th>
       </thead>
       {% for product in products %}
       <tbody>
-      <tr>
-        <th scope="row">{{ product.category }}</th>
+      <tr align="center">
+        <th scope="row">{{ product.category.name }}</th>
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td>{{ product.image }}</td>
         <td>{{ product.price }}</td>
-         <td> <a button class="btn btn-outline-success" type="button" href="#">Покласти в кошик</a> </td> 
+        <td> <a button class="btn btn-outline-success" type="button" href="#">Переглянути продукт</a> </td> 
+        <td> <a button class="btn btn-outline-success" type="button" href="#">Покласти в кошик</a> </td> 
       </tr>
       </tbody>
       {% endfor %}
