@@ -12,23 +12,25 @@
     <table class="table table-striped">
       <thead class="table-dark">
       <tr align="center">
+        <th scope="col" width="300">Категорія</th>
         <th scope="col" width="450">Назва</th>
         <th scope="col" width="450">Опис</th>
         <th scope="col" width="450">Зображення</th>
         <th scope="col" width="450">Ціна</th>
-        <th scope="col" width="150"></th>
-        <th scope="col" width="150"></th>
+        <th scope="col" width="200"></th>
+        <th scope="col" width="200"></th>
       </thead>
      {% for product in products %}
             {% if product.category.name == 'овочі' %}
       <tbody>
       <tr align="center">
+        <th scope="row">{{ product.category.name }}</th>
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td>{{ product.image }}</td>
         <td>{{ product.price }}</td>
-        <td> <a button class="btn btn-outline-success" type="button" href="#">Переглянути продукт</a> </td> 
-        <td> <a button class="btn btn-outline-success" type="button" href="#">Покласти в кошик</a> </td> 
+        <td> <a button class="btn btn-outline-success" type="button" href="/main/{{ product.id }}">Переглянути</a> </td> 
+        <td> <a button class="btn btn-outline-success" type="button" href="/main/product_order/{{ product.id }}">Купити</a> </td> 
       </tr>
       </tbody>
          {% endif %}

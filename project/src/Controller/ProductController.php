@@ -43,20 +43,11 @@ class ProductController extends AbstractController
         return $this->render('vegetables.html.twig', ['products' => $products]);
     }
 
-    // #[Route('/main/фрукти', name: 'fruits', methods: ['GET'])]
-    // #[Route('/main/овочі', name: 'vegetables', methods: ['GET'])]
-    // public function findByExampleField(Request $request, ProductRepository $ProductRepository): Response
-    // {
-    //     $fruits = $this->ProductRepository->findByExampleField($request->query->get(category.name));
-    //     return $this->render('fruits.html.twig', ['fruits' => $fruits]);
-    //     $vegetables = $this->ProductRepository->findByExampleField($request->query->get('овочі'));
-    //     return $this->render('vegetables.html.twig', ['vegetables' => $vegetables]);
-    // }
+    #[Route('/main/{id}', name: 'product_card', requirements: ['id' => '\d+'])]
+    public function product_card(ManagerRegistry $doctrine, int $id): Response
+    {
+        $product = $doctrine->getRepository(Product::class)->find($id);
+        return $this->render('product_card.html.twig', ['product' => $product]);
+    }
 
-    // #[Route('/main/овочі', name: 'vegetables', methods: ['GET'])]
-    // public function findByExampleField(Request $request, ProductRepository $ProductRepository): Response
-    // {
-    //     $vegetables = $this->ProductRepository->findByExampleField($request->query->get('овочі'));
-    //     return $this->render('vegetables.html.twig', ['vegetables' => $vegetables]);
-    // }
 }

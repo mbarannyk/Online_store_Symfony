@@ -28,12 +28,4 @@ class CategoryController extends AbstractController
         $categories = $this->CategoryRepository->findAll();
         return $this->render('category.html.twig', ['categories' => $categories]);
     }
-
-    #[Route('/main/products', name: 'products', methods: ['GET'])]
-    public function ProductCategoryPage(): Response
-    {
-        
-        $categories = $this->CategoryRepository->findAll();
-        return $this->render('products_list.html.twig', ['categories' => $categories]);
-    }
 }

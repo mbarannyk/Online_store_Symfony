@@ -1,0 +1,54 @@
+{% extends 'actions.html.twig' %}
+
+
+    {% block title %}
+        <title>Product Order</title>
+    {% endblock %}
+
+    {% block table %}
+     <div class="container mt-4">
+        <h1> Кошик </h1>
+            <div class="row mt-4">
+              <br>
+    <table class="table table-striped">
+      <thead class="table-dark">
+      <tr align="center">
+
+        <th scope="col" width="300">Категорія</th>
+        <th scope="col" width="450">Назва</th>
+        <th scope="col" width="450">Опис</th>
+        <th scope="col" width="450">Зображення</th>
+        <th scope="col" width="450">Ціна за од</th>
+        <th scope="col" width="100">Кількість</th>
+         <th scope="col" width="100">Загальна ціна</th>
+        <th scope="col" width="200"></th>
+      </thead>
+      <tbody>
+      <tr align="center">
+       {% set sum = 0 %}
+              {# {% for product in products %} #}
+        <th scope="row">{{ product.category.name }}</th>
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.image }}</td>
+        <td>{{ product.price }}</td>
+        <td> </td>
+         <td> </td>
+        <div class="btn-group btn-group-lg" role="group">
+        <td> <a button class="btn btn-outline-success" type="button" href="/main/products">Видалити з кошика</a> </td> 
+        </div>
+            {# {% endfor %}  #}
+      </tr>
+      </tbody>
+    </table>
+    </div>
+    <div align="right">
+    <h4>Всього: {{ sum }} грн</h4>
+    </div>
+            <br>
+             <div align="center">
+            <a href="#" class=" btn btn-success">Оформити замовлення</a>
+            <a href="#" class="btn btn-outline-success">Видалити корзину</a>
+             </div>
+            <br>
+{% endblock %}

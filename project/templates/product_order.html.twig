@@ -1,0 +1,41 @@
+{% extends 'actions.html.twig' %}
+
+
+    {% block title %}
+        <title>Product Order</title>
+    {% endblock %}
+
+    {% block table %}
+     <div class="container mt-4">
+        <h1> Замовлення продукту </h1>
+            <div class="row mt-4">
+              <br>
+    <table class="table table-striped">
+      <thead class="table-dark">
+      <tr align="center">
+        <th scope="col" width="300">Категорія</th>
+        <th scope="col" width="450">Назва</th>
+        <th scope="col" width="450">Опис</th>
+        <th scope="col" width="450">Зображення</th>
+        <th scope="col" width="450">Ціна</th>
+        <th scope="col" width="100">Кількість</th>
+        <th scope="col" width="200"></th>
+        <th scope="col" width="200"></th>
+      </thead>
+      <tbody>
+      <tr align="center">   
+        <th scope="row">{{ product.category.name }}</th>
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.image }}</td>
+        <td>{{ product.price }}</td>
+        <td> <input type="number" name="quantity" required/></td>
+        <div class="btn-group btn-group-lg" role="group">
+        <td> <a button class="btn btn-outline-success" type="button" href="/main/products">Повернутись до списку продуктів</a> </td> 
+        <td> <a button class="btn btn-success" type="button" href="/main/basket/{{ product.id }}">Покласти товар у кошик</a> </td> 
+        </div>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+{% endblock %}
