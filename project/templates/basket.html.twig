@@ -26,18 +26,18 @@
       <tbody>
       <tr align="center">
        {% set sum = 0 %}
-              {# {% for product in products %} #}
+              {% for product in products %} 
         <th scope="row">{{ product.category.name }}</th>
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td>{{ product.image }}</td>
         <td>{{ product.price }}</td>
-        <td> </td>
+        <td></td>
          <td> </td>
         <div class="btn-group btn-group-lg" role="group">
         <td> <a button class="btn btn-outline-success" type="button" href="/main/products">Видалити з кошика</a> </td> 
         </div>
-            {# {% endfor %}  #}
+            {% endfor %} 
       </tr>
       </tbody>
     </table>
@@ -47,7 +47,7 @@
     </div>
             <br>
              <div align="center">
-            <a href="#" class=" btn btn-success">Оформити замовлення</a>
+            <a href="/main/order" class=" btn btn-success">Оформити замовлення</a>
             <a href="#" class="btn btn-outline-success">Видалити корзину</a>
              </div>
             <br>

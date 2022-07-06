@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use App\Entity\Status;
+use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,17 +23,24 @@ class Order
 
     #[ORM\ManyToOne(targetEntity: status::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $status_id;
+    private $status;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: '0')]
     private $total_price;
 
-    #[ORM\OneToMany(mappedBy: 'order_id', targetEntity: OrderProduct::class)]
+    #[ORM\OneToMany(mappedBy: 'order', targetEntity: OrderProduct::class)]
     private $orderProducts;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
+    private $user;
+
+    #[ORM\OneToMany(mappedBy: 'OrderProduct', targetEntity: OrderProduct::class)]
+    private $order_product;
 
     public function __construct()
     {
         $this->orderProducts = new ArrayCollection();
+        $this->order_product = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,14 +60,14 @@ class Order
         return $this;
     }
 
-    public function getStatusId(): ?status
+    public function getStatus(): ?status
     {
-        return $this->status_id;
+        return $this->status;
     }
 
-    public function setStatusId(?status $status_id): self
+    public function setStatus(?status $status): self
     {
-        $this->status_id = $status_id;
+        $this->status = $status;
 
         return $this;
     }
@@ -87,7 +96,7 @@ class Order
     {
         if (!$this->orderProducts->contains($orderProduct)) {
             $this->orderProducts[] = $orderProduct;
-            $orderProduct->setOrderId($this);
+            $orderProduct->setOrder($this);
         }
 
         return $this;
@@ -97,11 +106,31 @@ class Order
     {
         if ($this->orderProducts->removeElement($orderProduct)) {
             // set the owning side to null (unless already changed)
-            if ($orderProduct->getOrderId() === $this) {
-                $orderProduct->setOrderId(null);
+            if ($orderProduct->getOrder() === $this) {
+                $orderProduct->setOrder(null);
             }
         }
 
         return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderProduct>
+     */
+    public function getOrderProduct(): Collection
+    {
+        return $this->order_product;
     }
 }
