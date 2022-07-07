@@ -6,29 +6,79 @@
     {% endblock %}
 
     {% block table %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1 align="center">Сторінка користувача:</h1>
-
-    <div class="row g-0">
-        <div class="col-md-3 border border-3" style="margin-top: 15px">
-            <img style="width: 100%;" src="#" alt="Фото">
-        </div>
-        <div class="col-md-9">
-            <div class="card-body">
-                <ul>
-                    <li class="list-group-item"> ID: {{ user.id|striptags }}</li>
-                    <li class="list-group-item"> Ім'я: {{ user.name|striptags }}</li>
-                    <li class="list-group-item"> email: {{ user.email|striptags }}</li>
-                    <li class="list-group-item"> телефон: {{ user.phone|striptags}}</li>
-                </ul>
-                 <a href="{{ path('logout') }}">Вийти</a>
-            </div>
-        </div>
+<section style="background-color: #eee;">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/main">Головна сторінка</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Профіль користувача</li>
+          </ol>
+        </nav>
+      </div>
     </div>
-</div>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="data:image/jpeg;base64,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" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">Ім'я: {{ user.name|striptags }}</h5>
+            <p class="text-muted mb-4">Ваш ID: {{ user.id|striptags }}</p>
+            <div class="d-flex justify-content-center mb-2">
+              <a type="button" class="btn btn-outline-success my-4" href="{{ path('logout') }}">Вийти</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Ім'я</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.name|striptags }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.email|striptags }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Телефон</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.phone|striptags }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Адреса</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.adress|striptags}}</p>
+              </div>
+            </div>
+            <hr>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
