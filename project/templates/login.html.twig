@@ -6,6 +6,10 @@
     {% endblock %}
 
     {% block table %}
+     {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    
     <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -16,7 +20,7 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="css/style.css">
+    {# <link rel="stylesheet" href="css/style.css"> #}
 
     <link rel="icon" href="Favicon.png">
 

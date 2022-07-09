@@ -31,6 +31,9 @@ class OrderProduct
     #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'order_product')]
     private $OrderProduct;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $session_id;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class OrderProduct
     public function setOrderProduct(?Order $OrderProduct): self
     {
         $this->OrderProduct = $OrderProduct;
+
+        return $this;
+    }
+
+    public function getSessionId(): ?string
+    {
+        return $this->session_id;
+    }
+
+    public function setSessionId(?string $session_id): self
+    {
+        $this->session_id = $session_id;
 
         return $this;
     }

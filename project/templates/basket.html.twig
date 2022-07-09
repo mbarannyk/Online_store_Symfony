@@ -24,22 +24,29 @@
         <th scope="col" width="200"></th>
       </thead>
       <tbody>
-      <tr align="center">
+     
        {% set sum = 0 %}
-              {% for product in products %} 
-        <th scope="row">{{ product.category.name }}</th>
-        <td>{{ product.name }}</td>
-        <td>{{ product.description }}</td>
-        <td>{{ product.image }}</td>
-        <td>{{ product.price }}</td>
-        <td></td>
-         <td> </td>
-        <div class="btn-group btn-group-lg" role="group">
-        <td> <a button class="btn btn-outline-success" type="button" href="/main/products">Видалити з кошика</a> </td> 
-        </div>
-            {% endfor %} 
+              {% for product in products %}  
+        <tr align="center">
+        <td>{{ product.product.category.name|striptags }}</td>
+        <th scope="row">{{ product.product.name|striptags }}</th>
+        <td>{{ product.product.description|striptags }}</td>
+        <td>{{ product.product.image }}</td>
+        <td>{{ product.product.price }}</td>
+         {% set sum = sum + product.product.price %}
+         {# {% for count in counts %}  #}
+        {# <td>{{ count }}</td>
+         {% endfor %}  #}
+        <td>{{ product.product.price }}</td>
+       <td></td>
+     
+        <div class="btn btn-lg">
+        <td> <a button class="btn btn-outline-success" type="button" href="/main/basket/del/{{ product.id }}">Видалити з кошика</a> </td> 
+        </div> 
+            
       </tr>
       </tbody>
+      {% endfor %} 
     </table>
     </div>
     <div align="right">
@@ -48,7 +55,7 @@
             <br>
              <div align="center">
             <a href="/main/order" class=" btn btn-success">Оформити замовлення</a>
-            <a href="#" class="btn btn-outline-success">Видалити корзину</a>
+            <a href="/main/basket/drop" class="btn btn-outline-success">Видалити корзину</a>
              </div>
             <br>
 {% endblock %}

@@ -9,24 +9,25 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    private ProductRepository $ProductRepository;
+    private $requestStack;
 
-    public function __construct(ProductRepository $ProductRepository)
+    public function __construct(RequestStack $requestStack)
     {
-        $this->ProductRepository = $ProductRepository;
+        $this->requestStack = $requestStack;
+
     }
 
     #[Route('/main/products', name: 'products', methods: ['GET'])]
-    public function ProductsPage(): Response
+    public function ProductsPage(ProductRepository $ProductRepository): Response
     {
-        
+        $this->ProductRepository = $ProductRepository;
         $products = $this->ProductRepository->findAll();
         return $this->render('products_list.html.twig', ['products' => $products]);
     }

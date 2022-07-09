@@ -6,7 +6,11 @@ use App\Entity\Product;
 use App\Repository\ProductRepository;
 use App\Entity\OrderProduct;
 use App\Repository\OrderProductRepository;
-use Symfony\Component\HttpFoundation\Session\Session;
+use App\Entity\Order;
+use App\Repository\OrderRepository;
+use App\Entity\Status;
+use App\Repository\StatusRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,38 +19,52 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 
 
 class BasketController extends AbstractController
 {
 
-    #[Route('/main/basket/add/{id<\d+>}', name: 'basket_add')]
-    public function addProduct(ManagerRegistry $doctrine, EntityManagerInterface $em, ProductRepository $productRepository, OrderProductRepository $OrderProductRepository, Session $session, int $id): Response
+    private $requestStack;
+
+    public function __construct(RequestStack $requestStack)
     {
-        
-        $em= $doctrine->getManager();
-        $product = $doctrine->getRepository(Product::class)->find($id);
-        $OrderProduct = new OrderProduct();
+        $this->requestStack = $requestStack;
+
+    }
+
+    /**
+     * 
+     * @ParamConverter("OrderProduct", Class ="App\Entity\OrderProduct")
+     */
+    
+    #[Route('/main/basket/add/{id<\d+>}', name: 'basket_add')]
+    public function BasketAdd(ProductRepository $productRepository, Product $product, EntityManagerInterface $em, $id): Response
+    {
+
+
+        $session = $this->requestStack->getSession();
+        $sessionId = $session->getId();
         $price = $product->getPrice();
         $total_price = $price;
-        $OrderProduct -> setProduct($product)
-        ->setPrice($price)
-        -> setCount(1)
-        ->setTotalPrice($total_price);
-
-        $session->set('orderProductId', $OrderProduct -> getId());
-
-        $em->persist($OrderProduct);
+        $basket = new OrderProduct();
+        $basket->setProduct($product);
+        $basket->setSessionId($sessionId);
+        $basket->setPrice($price);
+        $basket->setTotalPrice($price);
+        $basket->setCount(1);
+        $em->persist($basket);
         $em->flush();
-        return $this->redirectToRoute('basket');
+        return $this->redirectToRoute('basket', ['id' => $product->getId()]);
     }
 
     #[Route('/main/basket/del/{id<\d+>}', name: 'basket_del', methods: ['GET'])]
     public function delProduct(ManagerRegistry $doctrine, int $id): Response
     {
         $entityManager = $doctrine->getManager();
-        $product = $entityManager->getRepository(Product::class)->find($id);
+        $product = $entityManager->getRepository(OrderProduct::class)->find($id);
 
         if (!$product) {
             throw $this->createNotFoundException(
@@ -56,23 +74,37 @@ class BasketController extends AbstractController
         $entityManager->remove($product);
         $entityManager->flush();
 
-        return $this->render('basket.html.twig', ['product' => $product]);
+        return $this->redirectToRoute('basket', ['id' => $product->getId()]);
     }
     
     #[Route('/main/basket', name: 'basket')]
-    public function ShowBasket(Session $session, ProductRepository $productRepository, OrderProductRepository $OrderProductRepository, OrderProduct $OrderProduct): Response
+    public function ShowBasket( OrderProductRepository $OrderProductRepository): Response
     {
-        $id = $session->get('orderProductId');
-        $OrderProducts = $OrderProductRepository->find($id);
-        $products = $OrderProducts -> getProduct();
-        return $this->render('basket.html.twig', ['products' => $products]);
+      
+        $session = $this->requestStack->getSession();
+        $session = $session->getId();
+        $products = $OrderProductRepository->findBy(['session_id' => $session]);
+        // $counts = $products->getCount();
+
+        return $this->render(
+            'basket.html.twig',
+            [
+                'products' => $products,
+                // 'counts' => $counts,
+            ]
+        );
     }
 
-    #[Route('/main/order', name: 'order')]
-    public function SetOrder(ManagerRegistry $doctrine, Session $session): Response
+
+    #[Route('/main/basket/drop', name: 'basket_drop')]
+    public function basketDrop(Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('index.html.twig');
-        $session->clear();
+
+        $session = $this->requestStack->getSession();
+        $session->getFlashBag()->add('notice', 'Profile updated');;
+        $session->migrate();
+        return $this->redirectToRoute('basket');
+
     }
 
 

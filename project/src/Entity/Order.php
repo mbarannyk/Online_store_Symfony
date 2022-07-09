@@ -96,7 +96,7 @@ class Order
     {
         if (!$this->orderProducts->contains($orderProduct)) {
             $this->orderProducts[] = $orderProduct;
-            $orderProduct->setOrder($this);
+            $orderProduct->getProduct($this);
         }
 
         return $this;
