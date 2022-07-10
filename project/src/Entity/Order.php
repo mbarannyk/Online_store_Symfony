@@ -43,6 +43,9 @@ class Order
     #[ORM\Column(type: 'string', length: 255)]
     private $user_name;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $userId;
+
     public function __construct()
     {
         $this->orderProducts = new ArrayCollection();
@@ -160,6 +163,18 @@ class Order
     public function setUserName(string $user_name): self
     {
         $this->user_name = $user_name;
+
+        return $this;
+    }
+
+    public function getUserId(): ?int
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(?int $userId): self
+    {
+        $this->userId = $userId;
 
         return $this;
     }

@@ -12,16 +12,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'profile')]
-    public function default(OrderProductRepository $OrderProductRepository, OrderRepository $OrderRepository, ProductRepository  $ProductRepository): Response
+    public function UserOrders(OrderProductRepository $OrderProductRepository, OrderRepository $OrderRepository, ProductRepository  $ProductRepository): Response
     {
         $orders = $OrderRepository->findAll();
-        $basket = $OrderProductRepository->findAll();
+        $baskets = $OrderProductRepository->findAll();
         $products = $ProductRepository->findAll();
         return $this->render('profile.html.twig',
             [
                 'controller_name' => 'ProfileController',
                 'orders' => $orders,
-                'basket' => $basket,
+                'baskets' => $baskets,
                 'products' => $products,
                 'user' => $this->getUser(),
             ]

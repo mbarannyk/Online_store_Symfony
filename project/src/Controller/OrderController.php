@@ -33,8 +33,14 @@ class OrderController extends AbstractController
 
         $session = $this->requestStack->getSession();
         $session = $session->getId();
-        $products = $OrderProductRepository->findOneBy(['session_id' => $session]);
-        $totalPrice = $products->getTotalPrice();
+        $products = $OrderProductRepository->findBy(['session_id' => $session]);
+        
+        foreach ($products as &$product) {
+             $price1 = $product->getTotalPrice(); 
+             $Price[]=$price1;
+             $totalPrice = array_sum($Price);
+        }
+       
 
         $order = new Order();
         $form = $this->createForm(OrderFormType::class, $order);
@@ -48,9 +54,8 @@ class OrderController extends AbstractController
                 $session = $this->requestStack->getSession();
 
                 if ($this->getUser()) {
-                    $Order->setUser($this->getUser()->getId());
+                    $order->setUserId($this->getUser()->getId());
                 }
-                $sessionId = $session->getId();
 
                 $order->setStatus($status);
                 $order->setTotalPrice($totalPrice);

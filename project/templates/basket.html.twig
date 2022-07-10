@@ -22,6 +22,7 @@
         <th scope="col" width="100">Кількість</th>
          <th scope="col" width="100">Загальна ціна</th>
         <th scope="col" width="200"></th>
+        <th scope="col" width="200"></th>
       </thead>
       <tbody>
      
@@ -33,10 +34,9 @@
         <td>{{ product.product.description|striptags }}</td>
         <td>{{ product.product.image }}</td>
         <td>{{ product.product.price }}</td>
+        <td>{{ product.count }}</td> 
          {% set sum = sum + product.product.price %}
-         {# {% for count in counts %}  #}
-        {# <td>{{ count }}</td>
-         {% endfor %}  #}
+   
         <td>{{ product.product.price }}</td>
        <td></td>
      
