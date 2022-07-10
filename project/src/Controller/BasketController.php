@@ -84,13 +84,11 @@ class BasketController extends AbstractController
         $session = $this->requestStack->getSession();
         $session = $session->getId();
         $products = $OrderProductRepository->findBy(['session_id' => $session]);
-        // $counts = $products->getCount();
 
         return $this->render(
             'basket.html.twig',
             [
                 'products' => $products,
-                // 'counts' => $counts,
             ]
         );
     }
