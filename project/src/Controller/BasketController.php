@@ -95,7 +95,6 @@ class BasketController extends AbstractController
         );
     }
 
-
     #[Route('/main/basket/drop', name: 'basket_drop')]
     public function basketDrop(Request $request, EntityManagerInterface $em): Response
     {

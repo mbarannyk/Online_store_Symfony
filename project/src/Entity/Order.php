@@ -37,6 +37,12 @@ class Order
     #[ORM\OneToMany(mappedBy: 'OrderProduct', targetEntity: OrderProduct::class)]
     private $order_product;
 
+    #[ORM\Column(type: 'integer')]
+    private $phone;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $user_name;
+
     public function __construct()
     {
         $this->orderProducts = new ArrayCollection();
@@ -132,5 +138,29 @@ class Order
     public function getOrderProduct(): Collection
     {
         return $this->order_product;
+    }
+
+    public function getPhone(): ?int
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(int $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getUserName(): ?string
+    {
+        return $this->user_name;
+    }
+
+    public function setUserName(string $user_name): self
+    {
+        $this->user_name = $user_name;
+
+        return $this;
     }
 }
