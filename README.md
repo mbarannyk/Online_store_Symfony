@@ -45,3 +45,8 @@
 
     docker exec -i project_mysql mysql -uroot -proot Online_store < /dbDump/DBdump.sql
 
+
+
+Для отрмання прав адміністратора авторизуйтесь за домопогою кнопки "Адмін":
+email: admin@ukr.net
+Пароль: 123456
