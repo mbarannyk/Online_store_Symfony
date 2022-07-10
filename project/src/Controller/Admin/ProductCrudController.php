@@ -4,6 +4,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -19,11 +23,11 @@ class ProductCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id'),
-            IdField::new('category_id'),
+            IdField::new('category'),
             TextField::new('name'),
             TextEditorField::new('description'),
             TextEditorField::new('image'),
-            MoneyField::new('price')->setCurrency('UAH'),
+            IdField::new('price'),
         ];
     }
     
